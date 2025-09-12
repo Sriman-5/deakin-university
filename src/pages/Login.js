@@ -1,7 +1,8 @@
-import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import React, { useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebaseConfig";
+import { useNavigate, Link } from "react-router-dom";
+import "../styles/Auth.css"; 
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -12,40 +13,64 @@ export default function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
     setError("");
+
+    if (!email || !password) {
+      setError("Please enter both email and password.");
+      return;
+    }
+
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      navigate("/home"); 
+      navigate("/home");
     } catch (err) {
-      setError(err.message);
+      if (err.code === "auth/wrong-password") {
+        setError("Incorrect password. Try again.");
+      } else if (err.code === "auth/user-not-found") {
+        setError("No account found with this email. Please sign up.");
+      } else {
+        setError("Login failed. Please try again.");
+      }
     }
   };
 
   return (
-    <div className="auth-container">
-      <h2>Login</h2>
-      <p className="subtitle">Login to continue</p>
-      <form onSubmit={handleLogin}>
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <button type="submit">Login</button>
-      </form>
-      {error && <p className="error">{error}</p>}
-      <p>
-        Don’t have an account?{" "}
-        <Link to="/signup" className="link">
-          Sign up
-        </Link>
-      </p>
+    <div className="auth-page-wrapper">
+
+      <div className="logo-container">
+        <h2 className="logo">DEV@Deakin</h2>
+      </div>
+
+      <div className="auth-container">
+        <div className="auth-card">
+          <h2 className="auth-title">Log In</h2>
+          {error && <p className="auth-error">{error}</p>}
+          <form onSubmit={handleLogin} className="auth-form">
+            <input
+              type="email"
+              placeholder="Enter your email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="auth-input"
+            />
+            <input
+              type="password"
+              placeholder="Enter your password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="auth-input"
+            />
+            <button type="submit" className="auth-button">
+              Login
+            </button>
+          </form>
+          <p className="auth-footer">
+            New user?{" "}
+            <Link to="/signup" className="auth-link">
+              Sign up
+            </Link>
+          </p>
+        </div>
+      </div>
     </div>
   );
 }

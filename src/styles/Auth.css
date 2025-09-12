@@ -1,0 +1,15 @@
+
+.logo-container {
+  width: 100%;
+  padding: 12px 0;          
+  background-color: black; 
+  text-align: center; 
+       
+}
+
+.logo {
+  font-size: 26px;
+  font-weight: bold;
+  color: white;  
+  margin: 0;
+}

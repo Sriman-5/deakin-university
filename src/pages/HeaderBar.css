@@ -1,0 +1,35 @@
+.header-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #040404d9;
+  padding: 8px 16px;
+  border-bottom: 1px solid #ccc;
+}
+ .logo{
+    font-weight: bold;
+    font-size: 1.2rem;
+
+ }
+.search-bar {
+  flex: 1;
+  margin: 0 16px;
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.header-buttons button{
+    margin-left:8.2px;
+    padding: 6px 12px;
+    border: 1px solid #c5c3c3;
+    border-radius: 4px;
+}
+.post-btn {
+  background-color: #007bff;
+  color: white;
+}
+.login-btn {
+    background-color:#007bff;
+    color: white;
+}

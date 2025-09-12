@@ -1,21 +1,25 @@
-import { signOut } from "firebase/auth";
-import { auth } from "../firebaseConfig";
-import { useNavigate } from "react-router-dom";
+// src/pages/Home.js
+import React from "react";
+import { Container } from "semantic-ui-react";
+import NewsletterSignup from "../pages/NewsletterSignup";
+import FeaturedArticles from "../pages/FeaturedArticles";
+import Footer from "../pages/Footer";
+import HeroSection from "../pages/HeroSection";
+import Tutorials from "../pages/FeaturedTutorials";
+
 
 export default function Home() {
-  const navigate = useNavigate();
-
-  const handleLogout = async () => {
-    await signOut(auth);
-    navigate("/");
-  };
-
   return (
-    <div className="p-8">
-      <h1 className="text-2xl font-bold">Welcome to DEV@Deakin!</h1>
-      <button onClick={handleLogout} className="bg-red-500 text-white px-4 py-2 mt-4 rounded">
-        Logout
-      </button>
-    </div>
+    <>
+      
+      <HeroSection />
+      <Container style={{ marginTop: 20, marginBottom: 40 }}>
+        <FeaturedArticles />
+        <Tutorials />
+        <NewsletterSignup />
+        
+      </Container>
+      <Footer />
+    </>
   );
 }

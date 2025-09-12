@@ -1,12 +1,10 @@
-import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+// src/pages/Signup.js
+import React, { useState } from "react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth, db } from "../firebaseConfig";
-import { doc, setDoc } from "firebase/firestore";
+import { auth } from "../firebaseConfig";
+import { useNavigate, Link } from "react-router-dom";
 
 export default function Signup() {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -16,55 +14,42 @@ export default function Signup() {
     e.preventDefault();
     setError("");
     try {
-      const userCred = await createUserWithEmailAndPassword(auth, email, password);
-      await setDoc(doc(db, "users", userCred.user.uid), {
-        firstName,
-        lastName,
-        email,
-      });
-      navigate("/"); // back to login
+      await createUserWithEmailAndPassword(auth, email, password);
+      navigate("/home"); // ✅ go to home after signup
     } catch (err) {
       setError(err.message);
     }
   };
 
   return (
-    <div className="auth-container">
-      <h2>Sign up</h2>
-      <p className="subtitle">Sign up to continue</p>
+    <div className="p-8">
+      <h2 className="text-2xl font-bold mb-4">Sign Up</h2>
+      {error && <p className="text-red-500">{error}</p>}
       <form onSubmit={handleSignup}>
-        <input
-          type="text"
-          placeholder="First Name"
-          value={firstName}
-          onChange={(e) => setFirstName(e.target.value)}
-        />
-        <input
-          type="text"
-          placeholder="Last Name"
-          value={lastName}
-          onChange={(e) => setLastName(e.target.value)}
-        />
         <input
           type="email"
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+          className="block border p-2 mb-2 w-full"
         />
         <input
           type="password"
-          placeholder="Password"
+          placeholder="Password (min 6 chars)"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          className="block border p-2 mb-2 w-full"
         />
-        <button type="submit">Sign up</button>
+        <button
+          type="submit"
+          className="bg-green-500 text-white px-4 py-2 rounded"
+        >
+          Sign Up
+        </button>
       </form>
-      {error && <p className="error">{error}</p>}
-      <p>
+      <p className="mt-4">
         Already have an account?{" "}
-        <Link to="/" className="link">
-          Login
-        </Link>
+        <Link to="/" className="text-blue-600">Login</Link>
       </p>
     </div>
   );
