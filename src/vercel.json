@@ -1,0 +1,6 @@
+{
+  "version": 2,
+  "builds": [
+    { "src": "api/send-welcome.js", "use": "@vercel/node" }
+  ]
+}

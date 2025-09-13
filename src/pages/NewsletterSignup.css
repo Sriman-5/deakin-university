@@ -15,6 +15,7 @@
   justify-content: center;
   align-items: center;
   gap: 8px;
+  flex-wrap: wrap;
 }
 
 .newsletter-input {
@@ -33,4 +34,20 @@
   cursor: pointer;
 }
 
+.newsletter-button[disabled] {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
 
+.newsletter-message {
+  margin-top: 12px;
+  font-size: 0.95rem;
+}
+
+.newsletter-message.success {
+  color: #1b7a1b; /* green */
+}
+
+.newsletter-message.error {
+  color: #b00020; /* red */
+}

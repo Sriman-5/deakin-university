@@ -1,8 +1,8 @@
-// src/pages/Signup.js
 import React, { useState } from "react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebaseConfig";
 import { useNavigate, Link } from "react-router-dom";
+import { Button, Form, Grid, Header, Message } from "semantic-ui-react";
 
 export default function Signup() {
   const [email, setEmail] = useState("");
@@ -15,42 +15,51 @@ export default function Signup() {
     setError("");
     try {
       await createUserWithEmailAndPassword(auth, email, password);
-      navigate("/home"); // ✅ go to home after signup
+      navigate("/home");
     } catch (err) {
       setError(err.message);
     }
   };
 
   return (
-    <div className="p-8">
-      <h2 className="text-2xl font-bold mb-4">Sign Up</h2>
-      {error && <p className="text-red-500">{error}</p>}
-      <form onSubmit={handleSignup}>
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="block border p-2 mb-2 w-full"
-        />
-        <input
-          type="password"
-          placeholder="Password (min 6 chars)"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="block border p-2 mb-2 w-full"
-        />
-        <button
-          type="submit"
-          className="bg-green-500 text-white px-4 py-2 rounded"
-        >
+    <Grid
+      textAlign="center"
+      style={{ height: "100vh" }}
+      verticalAlign="middle"
+    >
+      <Grid.Column style={{ maxWidth: 400 }}>
+        <Header as="h2" textAlign="center">
           Sign Up
-        </button>
-      </form>
-      <p className="mt-4">
-        Already have an account?{" "}
-        <Link to="/" className="text-blue-600">Login</Link>
-      </p>
-    </div>
+        </Header>
+
+        <Form onSubmit={handleSignup} className="ui raised very padded text container segment">
+          {error && <Message negative>{error}</Message>}
+
+          <Form.Input
+            placeholder="Enter your email"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+
+          <Form.Input
+            placeholder="Enter your password"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+
+          <Button primary fluid type="submit">
+            Sign Up
+          </Button>
+
+          <Message style={{ marginTop: "1em" }}>
+            Already have an account? <Link to="/">Login</Link>
+          </Message>
+        </Form>
+      </Grid.Column>
+    </Grid>
   );
 }

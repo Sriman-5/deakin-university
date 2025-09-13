@@ -1,4 +1,4 @@
-// src/App.js
+
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import "semantic-ui-css/semantic.min.css";
@@ -12,7 +12,6 @@ import "./App.css";
 function AppLayout() {
   const location = useLocation();
 
-  // Hide HeaderBar on login and signup pages
   const hideHeader = location.pathname === "/" || location.pathname === "/login" || location.pathname === "/signup";
 
   return (

@@ -7,7 +7,6 @@ export default function Footer() {
     <footer className="footer">
       <div className="footer-container">
 
-        {/* Explore Section */}
         <div className="footer-column">
           <h4>Explore</h4>
           <ul>
@@ -18,7 +17,6 @@ export default function Footer() {
           </ul>
         </div>
 
-        {/* Support Section */}
         <div className="footer-column">
           <h4>Support</h4>
           <ul>
@@ -28,7 +26,6 @@ export default function Footer() {
           </ul>
         </div>
 
-        {/* Social Section */}
         <div className="footer-column">
           <h4>Stay Connected</h4>
           <div className="footer-social">
@@ -45,7 +42,6 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* Footer Bottom */}
       <div className="footer-bottom">
         <p>DEV@Deakin 2022</p>
         <p>
