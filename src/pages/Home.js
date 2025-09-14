@@ -1,4 +1,4 @@
-// src/pages/Home.js
+
 import React from "react";
 import { Container } from "semantic-ui-react";
 import NewsletterSignup from "../pages/NewsletterSignup";

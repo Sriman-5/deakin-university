@@ -8,16 +8,38 @@ export default function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleSignup = async (e) => {
     e.preventDefault();
     setError("");
+    setLoading(true);
+
+    const trimmedEmail = email.trim();
+
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
+      // 1️⃣ Create user in Firebase
+      await createUserWithEmailAndPassword(auth, trimmedEmail, password);
+
+      // 2️⃣ Call serverless function to send welcome email
+      const res = await fetch("/api/sendWelcomeEmail", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: trimmedEmail }),
+      });
+
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.error || "Failed to send welcome email");
+      }
+
+      // 3️⃣ Navigate to home page
       navigate("/home");
     } catch (err) {
       setError(err.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -32,7 +54,10 @@ export default function Signup() {
           Sign Up
         </Header>
 
-        <Form onSubmit={handleSignup} className="ui raised very padded text container segment">
+        <Form
+          onSubmit={handleSignup}
+          className="ui raised very padded text container segment"
+        >
           {error && <Message negative>{error}</Message>}
 
           <Form.Input
@@ -51,8 +76,8 @@ export default function Signup() {
             required
           />
 
-          <Button primary fluid type="submit">
-            Sign Up
+          <Button primary fluid type="submit" disabled={loading}>
+            {loading ? "Signing Up..." : "Sign Up"}
           </Button>
 
           <Message style={{ marginTop: "1em" }}>

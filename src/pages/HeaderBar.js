@@ -16,7 +16,6 @@ export default function HeaderBar() {
   const handleLogout = async () => {
     try {
       await signOut(auth);
-      // navigate to the login route; App.js has /login and / set up
       navigate("/login", { replace: true });
     } catch (err) {
       console.error("Logout failed:", err);
@@ -35,8 +34,7 @@ export default function HeaderBar() {
       />
 
       <div className="header-buttons">
-        {/* remove Post button if you don't need it */}
-        {/* <button className="post-btn">Post</button> */}
+
 
         {user ? (
           <button className="logout-btn" onClick={handleLogout}>
