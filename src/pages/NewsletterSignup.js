@@ -4,12 +4,17 @@ import "./NewsletterSignup.css";
 export default function NewsletterSignup() {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
+  const [status, setStatus] = useState("idle"); // idle | loading | success | error
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!email) return;
+    setStatus("loading");
+    setMessage("");
 
     try {
-      const res = await fetch("http://localhost:3000/api/send-welcome", {
+      // Use the Netlify Functions path. Works locally with `netlify dev` and when deployed.
+      const res = await fetch("/.netlify/functions/send-welcome", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),
@@ -18,14 +23,18 @@ export default function NewsletterSignup() {
       const data = await res.json();
 
       if (res.ok) {
+        setStatus("success");
         setMessage("Welcome email sent successfully!");
         setEmail("");
       } else {
-        setMessage("" + data.message);
+        setStatus("error");
+        // prefer server message if present
+        setMessage(data && data.error ? data.error : data.message || "Something went wrong");
       }
     } catch (err) {
-      console.error("Error:", err);
-      setMessage("Failed to connect to server. Try again.");
+      console.error("Network error:", err);
+      setStatus("error");
+      setMessage("Failed to connect to server. Try running `netlify dev`, or check function deployment.");
     }
   };
 
@@ -41,11 +50,11 @@ export default function NewsletterSignup() {
           onChange={(e) => setEmail(e.target.value)}
           required
         />
-        <button type="submit" className="newsletter-button">
-          Subscribe
+        <button type="submit" className="newsletter-button" disabled={status === "loading"}>
+          {status === "loading" ? "Sending..." : "Subscribe"}
         </button>
       </form>
-      {message && <p>{message}</p>}
+      {message && <p className={status === "error" ? "error" : "success"}>{message}</p>}
     </div>
   );
 }
