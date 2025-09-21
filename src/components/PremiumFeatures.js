@@ -1,7 +1,10 @@
 import React from "react";
 import { Card, Container, Segment } from "semantic-ui-react";
 
-function PremiumFeatures() {
+function PremiumFeatures({ isPremium }) {
+  // ✅ Do not render anything if the user is not premium
+  if (!isPremium) return null;
+
   return (
     <Container style={{ marginTop: "2em" }}>
       <Segment>
@@ -25,7 +28,6 @@ function PremiumFeatures() {
             </Card.Content>
           </Card>
 
-          
           <Card
             as="a"
             href="https://www.adobe.com"
@@ -39,11 +41,10 @@ function PremiumFeatures() {
             />
             <Card.Content>
               <Card.Header>Banners</Card.Header>
-              <Card.Description> You can create banners using Adobe</Card.Description>
+              <Card.Description>You can create banners using Adobe</Card.Description>
             </Card.Content>
           </Card>
 
-         
           <Card
             as="a"
             href="https://www.canva.com"
@@ -60,6 +61,7 @@ function PremiumFeatures() {
               <Card.Description>Create stunning designs and themes</Card.Description>
             </Card.Content>
           </Card>
+
         </Card.Group>
       </Segment>
     </Container>
@@ -67,4 +69,3 @@ function PremiumFeatures() {
 }
 
 export default PremiumFeatures;
-
