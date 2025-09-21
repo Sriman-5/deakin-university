@@ -27,14 +27,14 @@ export default function HeaderBar() {
     <header className="header-container">
       <div className="logo">DEV@Deakin</div>
 
-      <input
-        type="text"
-        placeholder="Search..."
-        className="search-bar"
-      />
+      <input type="text" placeholder="Search..." className="search-bar" />
 
       <div className="header-buttons">
 
+        {/* ⬅️ added Plans link */}
+        <Link to="/plans">
+          <button className="plans-btn">Plans</button>
+        </Link>
 
         {user ? (
           <button className="logout-btn" onClick={handleLogout}>

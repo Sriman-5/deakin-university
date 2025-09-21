@@ -4,7 +4,7 @@ import "./NewsletterSignup.css";
 export default function NewsletterSignup() {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
-  const [status, setStatus] = useState("idle"); // idle | loading | success | error
+  const [status, setStatus] = useState("idle"); 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -13,7 +13,7 @@ export default function NewsletterSignup() {
     setMessage("");
 
     try {
-      // Use the Netlify Functions path. Works locally with `netlify dev` and when deployed.
+     
       const res = await fetch("/.netlify/functions/send-welcome", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -28,7 +28,7 @@ export default function NewsletterSignup() {
         setEmail("");
       } else {
         setStatus("error");
-        // prefer server message if present
+       
         setMessage(data && data.error ? data.error : data.message || "Something went wrong");
       }
     } catch (err) {

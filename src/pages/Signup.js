@@ -19,10 +19,9 @@ export default function Signup() {
     const trimmedEmail = email.trim();
 
     try {
-      // 1️⃣ Create user in Firebase
+    
       await createUserWithEmailAndPassword(auth, trimmedEmail, password);
 
-      // 2️⃣ Call serverless function to send welcome email
       const res = await fetch("/api/sendWelcomeEmail", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -34,7 +33,7 @@ export default function Signup() {
         throw new Error(data.error || "Failed to send welcome email");
       }
 
-      // 3️⃣ Navigate to home page
+    
       navigate("/home");
     } catch (err) {
       setError(err.message);

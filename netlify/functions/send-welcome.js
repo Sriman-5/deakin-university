@@ -1,10 +1,9 @@
-// netlify/functions/send-welcome.js
 const sgMail = require("@sendgrid/mail");
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 exports.handler = async (event) => {
-  // Basic preflight handling for CORS
+
   if (event.httpMethod === "OPTIONS") {
     return {
       statusCode: 200,
