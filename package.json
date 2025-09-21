@@ -4,14 +4,33 @@
   "private": true,
   "dependencies": {
     "@sendgrid/mail": "^8.1.5",
+    "@stripe/react-stripe-js": "^4.0.2",
+    "@stripe/stripe-js": "^7.9.0",
+    "axios": "^1.12.2",
+    "buffer": "^6.0.3",
+    "codemirror": "^5.65.20",
+    "cors": "^2.8.5",
+    "crypto-browserify": "^3.12.1",
+    "dotenv": "^17.2.2",
+    "express": "^5.1.0",
     "firebase": "^12.2.1",
+    "os-browserify": "^0.3.0",
+    "path-browserify": "^1.0.1",
+    "process": "^0.11.10",
+    "querystring": "^0.2.1",
     "react": "^18.0.0",
+    "react-codemirror2": "^8.0.1",
     "react-dom": "^18.0.0",
     "react-icons": "^5.5.0",
+    "react-markdown": "^10.1.0",
     "react-router-dom": "^7.9.1",
-    "react-scripts": "5.0.1",
+    "react-scripts": "^5.0.1",
     "semantic-ui-css": "^2.5.0",
     "semantic-ui-react": "^2.1.5",
+    "stream-browserify": "^3.0.0",
+    "stripe": "^18.5.0",
+    "url": "^0.11.4",
+    "util": "^0.12.5",
     "web-vitals": "^5.1.0"
   },
   "scripts": {
@@ -31,5 +50,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "description": "This project was bootstrapped with Create React App.",
+  "main": "server.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }
