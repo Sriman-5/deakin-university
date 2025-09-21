@@ -1,8 +1,69 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
 
-export default function Plans() {
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { getDoc, doc } from "firebase/firestore";
+import { db } from "../firebaseConfig";
+import { markUserAsPremium } from "../utils/updateSubscription";
+
+export default function Plans({ currentUser, isPremium, setIsPremium }) {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
+
+  
+  useEffect(() => {
+    const fetchSubscription = async () => {
+      if (!currentUser || !currentUser.uid) {
+        setLoading(false);
+        return;
+      }
+
+      try {
+        const docRef = doc(db, "users", currentUser.uid);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+          
+          setIsPremium(docSnap.data().premium === true);
+        }
+      } catch (error) {
+        console.error("Error checking subscription:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchSubscription();
+  }, [currentUser, setIsPremium]);
+
+ 
+  const handleUpgrade = async () => {
+    if (!currentUser || !currentUser.uid) {
+      alert("Please log in to upgrade!");
+      return;
+    }
+
+    try {
+      
+      window.open(
+        "https://buy.stripe.com/test_7sYeVed6OgOb6TFdW5ak000",
+        "_blank"
+      );
+
+      // Immediately mark user as premium (for demo; ideally use Stripe webhooks)
+      await markUserAsPremium(currentUser.uid);
+      setIsPremium(true); // Update App.js state so Home sees premium features immediately
+
+      alert("🎉 You are now a Premium user!");
+      
+      // ✅ Redirect to Home page
+      navigate("/home");
+    } catch (error) {
+      console.error("Upgrade failed:", error);
+      alert("Upgrade failed. Try again.");
+    }
+  };
+
+  if (loading) return <p style={{ textAlign: "center" }}>Loading...</p>;
 
   return (
     <div style={{ padding: "50px 20px", textAlign: "center" }}>
@@ -16,7 +77,7 @@ export default function Plans() {
           flexWrap: "wrap",
         }}
       >
-      
+        
         <div
           style={{
             background: "#fff",
@@ -45,13 +106,13 @@ export default function Plans() {
               border: "none",
               cursor: "pointer",
             }}
-            onClick={() => navigate("/home")} 
+            onClick={() => navigate("/home")}
           >
             Get Started for Free
           </button>
         </div>
 
-       
+        {/* Premium Plan */}
         <div
           style={{
             background: "#0a033c",
@@ -71,12 +132,20 @@ export default function Plans() {
             <li>Unlimited event joins</li>
             <li>Event data exports</li>
           </ul>
-          <a
-            href="https://buy.stripe.com/test_7sYeVed6OgOb6TFdW5ak000"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+
+          {isPremium ? (
+            <p
+              style={{
+                marginTop: "20px",
+                fontWeight: "bold",
+                color: "lightgreen",
+              }}
+            >
+              ✅ You are already subscribed to Premium
+            </p>
+          ) : (
             <button
+              onClick={handleUpgrade}
               style={{
                 marginTop: "20px",
                 background: "#fff",
@@ -90,7 +159,7 @@ export default function Plans() {
             >
               Upgrade Now
             </button>
-          </a>
+          )}
         </div>
       </div>
     </div>

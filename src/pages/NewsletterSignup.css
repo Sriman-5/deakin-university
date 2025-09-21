@@ -45,9 +45,9 @@
 }
 
 .newsletter-message.success {
-  color: #1b7a1b; /* green */
+  color: #1b7a1b; 
 }
 
 .newsletter-message.error {
-  color: #b00020; /* red */
+  color: #b00020; 
 }
